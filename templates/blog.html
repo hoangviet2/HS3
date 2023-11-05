@@ -1,0 +1,221 @@
+<!-- nav bar -->
+{% include 'navbar.html' %}
+
+<div class="blog-theme bg-image text-purple">
+    <div class=""></div>
+
+    <div class="hero-content display-table">
+        <div class="table-cell-2 opacity-1">
+            <div class="container text-left">
+                <!-- Blog content block -->
+                <div class="">
+                    <div class="row">
+                        <div class="col">
+                            <h3 class="ms-3">Đọc câu chuyện này có thể giúp bạn!</h3>
+                        </div>
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-2">
+                                    <h3>Bookmark</h3>
+                                </div>
+                                <div class="col-10">
+                                    <!-- Bookmark section -->
+                                    <form action="/bookmark" method="post">
+                                        <input type="hidden" name="id" value="{{ blog.id }}">
+
+                                        <!-- bookmarking -->
+                                        {% if temp2 == None %}
+                                            <div class="form-check form-check-inline">
+                                                <input class="form-check-input" type="radio" name="bookmark_state" id="true" value="true" >
+                                                <label class="form-check-label" for="true"><i class="bi bi-bookmark-heart" data-bs-toggle="modal" data-bs-target="#ConfirmBookmark"></i></label>
+                                            </div>  
+                                        
+                                        {% else %} 
+                                            <!-- Cancel bookmarking -->
+                                            {% for bookmark in bookmarks %}
+                                                {% if bookmark.bookmarker.id == current_user.id and bookmark.blog_id == blog.id %}
+                                                    <div class="form-check form-check-inline">
+                                                        <input class="form-check-input" type="radio" name="bookmark_state" id="false" value="false" >
+                                                        <label class="form-check-label" for="false"><i class="bi bi-bookmark-heart-fill" data-bs-toggle="modal" data-bs-target="#CancelBookMark"></i></label>
+                                                    </div>                         
+                                                {% endif %}           
+                                            {% endfor %}
+                                        {% endif %}
+                                        
+                                        
+                                        <!-- Bookmark Confirm Modal -->
+                                        <div class="modal fade" id="ConfirmBookmark" tabindex="-1" aria-labelledby="ConfirmBookmark" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="ConfirmBookmark">Bookmark this blog</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Do you want to add this blog to your bookmark?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Yes</button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+
+                                        <!-- Bookmark Cancel Modal -->
+                                        <div class="modal fade" id="CancelBookMark" tabindex="-1" aria-labelledby="CancelBookMark" aria-hidden="true">
+                                            <div class="modal-dialog">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h1 class="modal-title fs-5" id="CancelBookMark">Cancel bookmarking</h1>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                    Do you want to remove this blog from your bookmark?
+                                                </div>
+                                                <div class="modal-footer">
+                                                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Close</button>
+                                                    <button type="submit" class="btn btn-primary">Yes</button>
+                                                </div>
+                                            </div>
+                                            </div>
+                                        </div>
+
+                                    </form>
+                                </div>
+                                
+                                
+                            </div>
+                            
+                        </div>
+                    </div>
+                    
+                    <br>
+                    <div class="container">
+                        <div class="row">
+                            <div class="col-12">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <a href= "{{ url_for('time', start_time_sec=start_time_sec, id=blog.id)}}">
+                                            <i class="bi bi-arrow-left"></i>
+                                            Back to all stories
+                                        </a>
+                                    </div>
+                                    {% if blog.poster.id == current_user.id %}
+                                        <div class="col-6">
+                                            <a href= "{{ url_for('edit_blog', id=blog.id) }}">
+                                                <i class="bi bi-arrow-right"></i>
+                                                Edit
+                                            </a>
+                                        </div>
+                                    {% else %}
+                                        <div class="col-6">
+                                            <a href= "{{ url_for('other_user_blogs', id=blog.poster.id) }}">
+                                                <i class="bi bi-arrow-right"></i>
+                                                Read more from this user
+                                            </a>
+                                        </div>
+                                    {% endif %}
+                                </div>
+                            </div>
+                            <div class="col-6">
+                                
+                                <div class="col blog-show-title mt-4 ">
+                                    {{blog.title}}
+                                </div>
+                                <div class="col mt-5">
+                                    This content is from: {{blog.poster.user_name}}
+                                    <br><br><br><br><br><br>
+
+                                    <!-- Reaction form -->
+                                    {% include 'reaction_section.html' %}
+
+                                    <br><br><br><br><br><br>
+                                    <!-- Record number of reactions -->
+                                    
+                                </div> 
+                
+                            </div>
+                            <div class="col-6 text-break text-output ">
+                                {{blog.content}}
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <!-- end blog content block -->
+
+                <!-- comment block -->
+                <br><hr><br>
+                {% include 'comment_section.html' %}
+
+                
+                <!-- end comment block -->
+
+
+                <!-- Suggest similar content -->
+                <br><br><hr><br>
+                <h1 class="text-center"> More content like this</h1>
+                <div class="row mt-4 text-center">
+                        <div class="col-4 mt-4">
+                            <div class="card ">
+                                <div class="card-header card-secondary-color">
+                                    Related story
+                                </div>
+                                <div class="card-body card-primary-color">
+                                    <h3 class="card-title-blog">{{blog.title[:29]}}</h3>
+                                    <a href="{{url_for('other_user_blogs', id=blog.poster.id)}}"><p class="card-text">{{blog.poster.user_name}}</p></a>
+                                    <p class="card-text opacity-8 mt-4">{{blog.content[:140]}}......</p>
+                                    <br>
+                                    <div class="d-grid gap-2">
+                                        <a href="{{url_for('blog', id=blog.id)}}" class="btn btn-outline-primary">Read story now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4 mt-4">
+                            <div class="card ">
+                                <div class="card-header card-secondary-color">
+                                    Related story
+                                </div>
+                                <div class="card-body card-primary-color">
+                                    <h3 class="card-title-blog">{{blog.title[:29]}}</h3>
+                                    <a href="{{url_for('other_user_blogs', id=blog.poster.id)}}"><p class="card-text">{{blog.poster.user_name}}</p></a>
+                                    <p class="card-text opacity-8 mt-4">{{blog.content[:140]}}......</p>
+                                    <br>
+                                    <div class="d-grid gap-2">
+                                        <a href="{{url_for('blog', id=blog.id)}}" class="btn btn-outline-primary">Read story now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="col-4 mt-4">
+                            <div class="card ">
+                                <div class="card-header card-secondary-color">
+                                    Related story
+                                </div>
+                                <div class="card-body card-primary-color">
+                                    <h3 class="card-title-blog">{{blog.title[:29]}}</h3>
+                                    <a href="{{url_for('other_user_blogs', id=blog.poster.id)}}"><p class="card-text">{{blog.poster.user_name}}</p></a>
+                                    <p class="card-text opacity-8 mt-4">{{blog.content[:140]}}......</p>
+                                    <br>
+                                    <div class="d-grid gap-2">
+                                        <a href="{{url_for('blog', id=blog.id)}}" class="btn btn-outline-primary">Read story now</a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                </div>
+
+            </div>
+        </div>
+
+        <br><br><br>
+    </div>
+
+<!-- nav bar -->
+{% include 'footer.html' %}
+
+
+<script src="{{ url_for('static', filename='js/text-box-control.js') }}"></script>

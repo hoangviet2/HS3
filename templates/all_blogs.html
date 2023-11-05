@@ -1,0 +1,153 @@
+<!-- nav bar -->
+{% include 'navbar.html' %}
+
+
+<div id="hero" class="text-center">
+    <div class="row" style="margin-top:60px">
+        <div class="col-6">
+            <img src="static/imgs/shapes/bg.png" alt="" style="width: 100%;">      
+        </div>
+        <div class="col-6 text-left">
+            <h1 class="text-purple medium-heading" style="margin-top:30px; margin-left: 20px;">Reading Blogs</h1>
+            <br>
+            <hr style="margin-left: 20px;">
+            <p class="moveLeft" style="margin-left: 20px; max-width: 300px; margin-top: 70px;" >Blog về sức khỏe tâm thần là một nền tảng nơi bạn có thể chia sẻ suy nghĩ, cảm xúc và kinh nghiệm liên quan đến sức khỏe tinh thần của bạn. Bạn cũng có thể học hỏi từ câu chuyện của người khác, nhận mẹo và lời khuyên, đồng thời tìm hỗ trợ và tài nguyên. Một blog về sức khỏe tâm thần có thể giúp bạn đối phó với căng thẳng, lo lắng, trầm cảm và các vấn đề sức khỏe tâm thần khác. Nó cũng có thể truyền cảm hứng cho bạn để sống một cuộc sống hạnh phúc và khỏe mạnh hơn.</p>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="subscribe p-5">
+            <br>
+            <h2> Đăng ký để nhận được cập nhật đề xuất blog mới </h2>
+            <br><br>
+            <form action="https://formsubmit.co/tedupcom@gmail.com" method="post">
+                <div class="row" style="text-align: right;">
+                    <div class="col-7">
+                        <input type="email" placeholder="Email" class="form-control-subscribe">
+                    </div>
+                    <div class="col-5 text-left" style="max-width:120px">
+                        <button type="submit" class="btn btn-outline-secondary">Send now</button>
+                    </div>
+                </div>
+            </form> 
+            <br><br>
+        </div>
+    </div>
+
+    <!-- Categories Topics Section - Running -->
+    <h1 class="text-purple mt-4">Reading Categories</h1>
+    <div class="mt-4">
+        <div class="row">
+            {% for category, img in zip(categories, img_categories) %}
+                <div class="col-2 col-2-custom">
+                    <div class="card card-category up">
+                        <div class="card-body card-primary-color">
+                            <img src="static/imgs/shapes/{{img}}" class="card-img-top" alt="...">
+                            <!-- bookmark -->
+                            <h3 class="card-title-blog">{{ category.title }}</h3> 
+                            <p class="card-text opacity-8 mt-4 text-gray">{{ category.description }}</p>
+                            <a href="">View <i class="bi bi-arrow-right"></i></a>
+                            <br>
+                        </div>
+                    </div>
+                </div>
+            {% endfor %}
+        </div>
+    </div>
+
+
+    <div class="hero-content display-table">
+        <br> <br> <br> 
+        <div class="container-fluid" style="max-width: 300px;">
+            <!-- Searching bar -->
+            <form method="POST" class="d-flex" role="search" action="{{url_for('search')}}">
+                {{ form.hidden_tag() }}
+                <input class="search-custom" placeholder="Search" name="searched">
+                <button class="btn btn-outline-search" type="submit"><i class="bi bi-search"></i></button>
+                <!-- Suggestion -->
+                <a href="{{url_for('recsys')}}" style="margin-top: 6px;" >
+                    <i class="bi bi-envelope-exclamation ms-4" style="color: var(--purple-color)"></i>
+                </a>
+                <!-- End Suggestion -->
+            </form>
+            <!-- End Searching bar -->
+        </div>
+        
+        <div class="table-cell-3">
+            <!-- content block -->  
+            <div class="container">
+                <h1 class="text-purple">Welcome {{current_user.name}} to stories gallary </h1>
+                <p class="opacity-8 mt-4 text-gray"> Đọc những câu chuyện thực tế từ những người khác và khám phá cách họ vượt qua vấn đề của họ có thể giúp bạn rất nhiều để giải quyết vấn đề của mình</p>
+                <br>
+                
+                <div class="row">
+                    <div class="col-3"></div>
+                    <div class="col-6">
+                        {% for each_tag in list_tags %}
+                            <a style="margin-bottom:10px;" href="{{ url_for('all_blogs_filter', query=each_tag)}}"><li class="badge tag-choose ">{{each_tag}}</li> </a>
+                        {% endfor %}
+                    </div>
+                    <div class="col-3"></div>
+                </div>
+            
+                
+
+                <div class="row mt-4">
+                    {% for blog in all_blogs %}
+                        <div class="col-4 mt-4">
+                            <div class="card up">
+                                <div class="card-header card-secondary-color">
+                                    Featured story 
+                                </div>
+                                <div class="card-body card-primary-color">
+                                    <!-- bookmark -->
+                                    <div class="row" style="padding:0px">
+                                        <div class="col-2">
+                                            {% include 'bookmark2.html' %} 
+                                        </div>
+                                        <div class="col-10">
+                                            <h3 class="card-title-blog text-left" style="margin-left: 15px">
+                                                {{blog.title[:25]}}
+                                            </h3> 
+                                        </div>
+                                    </div>
+                                    
+                                    <a href="{{url_for('other_user_blogs', id=blog.poster.id)}}"><p class="card-text">{{blog.poster.user_name}}</p></a>
+                                    <p class="card-text opacity-8 mt-4">{{blog.content[:140]}}......</p>
+                                    <br>
+                                    <div class="d-grid gap-2">
+                                        <a href="{{url_for('blog', id=blog.id)}}" class="btn btn-outline-primary">Read story now</a>
+                                    </div>
+                                    <br>
+                                    <div class="tag-footer">
+                                        {% for tag in tags %}
+                                            {% if tag.blog_id == blog.id %}
+                                                {% set tag_list = decoding(tag.content) %} 
+                                                    {% for t in tag_list %} 
+                                                        <li class="badge tag-tag ">{{t}}</li> 
+                                                    {% endfor %}
+                                            {% endif %}
+                                        {% endfor %}
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+            <!-- end content block -->
+            
+        </div>
+        
+    </div>
+</div>
+
+<br><br><br>
+{% include 'footer.html' %}
+
+<script src="{{ url_for('static', filename='js/scroll.js') }}"></script>
+
+
+
+
+
