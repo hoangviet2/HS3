@@ -1,4 +1,13 @@
 import streamlit as st
+import firebase_admin
+from firebase_admin import credentials
+from firebase_admin import firestore
+from datetime import datetime
+
+cred = credentials.Certificate("C:/Users/YuuNagi/HS3/src/Wfirebase_sdk.json")
+if not firebase_admin.get_app():
+    firebase_admin.initialize_app(cred)
+
 
 # import modules
 from chat_setup_configuration import page_configure
@@ -76,6 +85,21 @@ class S_values(db.Model):
     value = db.Column(db.Integer, nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey('users.id'))
     date_posted = db.Column(db.DateTime, default=datetime.utcnow)
+
+#hàm Firestore
+def show_all_user():
+    emp_ref = db.collection('teaching feeling')
+    docs = emp_ref.stream()
+
+    for doc in docs:
+        st.success('{} => {}'.format(doc.id,doc.to_dict()))
+
+def show_all_selfhelp():
+    emp_ref = db.collection('Selfhelp')
+    docs = emp_ref.stream()
+
+    for doc in docs:
+        st.success(doc.to_dict())
     
     
     
@@ -100,9 +124,9 @@ class S_values(db.Model):
                 
 # form
 with st.form(key='form_login'):
-    st.write('**LOGIN FORM**')
-    form_email = st.text_input('email')
-    form_password = st.text_input('password') 
+    st.write('**Teaching Feeling**')
+    form_user = st.text_input('How can I call you?')
+    form_passage = st.text_input('How do you feel today?') 
     
     with st.expander("**Điều Khoản**"):
         st.markdown("""
@@ -121,10 +145,22 @@ with st.form(key='form_login'):
     
     submit_button = st.form_submit_button(label='Submit')
     if submit_button:
+        db = firestore.client()
+        doc_ref = db.collection('teaching feeling').document(form_user)
+        now = datetime.now()
+        current_time = now.strftime("%H:%M:%S")
         with app.app_context():
-            user = Users.query.filter_by(email=form_email).first()
-            if agree and form_password == user.password_hash:
-                st.success("successully login")
+            #user = Users.query.filter_by(email=form_email).first()
+            if agree:
+                doc_ref.set({
+                    current_time: form_passage
+                })
+                st.success("successully uploaded")
+            else:
+                st.error("Dell đồng ý điều khoản của bố m mà đòi upload? Cút")
+                #show_all_user()
+                #show_all_selfhelp()
+
                 
                 
             
