@@ -100,6 +100,13 @@ def show_all_selfhelp():
 
     for doc in docs:
         st.success(doc.to_dict())
+
+def show_all_despair():
+    emp_ref = db.collection('Despair')
+    docs = emp_ref.stream()
+
+    for doc in docs:
+        st.success(doc.to_dict())
     
     
     
@@ -142,7 +149,7 @@ with st.form(key='form_login'):
             \n Nếu bạn có bất kỳ câu hỏi, ý kiến hoặc phản hồi nào về điều khoản sử dụng dịch vụ theo dõi sức khoẻ của chúng tôi, xin vui lòng liên hệ với chúng tôi qua email: healthtracker@gmail.com. Xin cảm ơn bạn đã sử dụng dịch vụ của chúng tôi.
         """)
         agree  = st.checkbox('Tôi đồng ý')
-    
+
     submit_button = st.form_submit_button(label='Submit')
     if submit_button:
         db = firestore.client()
@@ -157,9 +164,10 @@ with st.form(key='form_login'):
                 })
                 st.success("successully uploaded")
             else:
-                st.error("Dell đồng ý điều khoản của bố m mà đòi upload? Cút")
+                st.error("Hãy đồng ý các điều khoản trước khi xác nhận!")
                 #show_all_user()
                 #show_all_selfhelp()
+                #show_all_despair()
 
                 
                 
