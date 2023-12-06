@@ -13,3 +13,4 @@ flask-migrate
 plotly
 scikit-learn
 deep-translator
+firebase-admin
