@@ -82,7 +82,7 @@ from score import score
 # set up page configuration
 page_configure()
 st.title('Progress Record and Mental Health Assessment')
-tab1, tab2, tab3 = st.tabs(["Detailed Analysis", "Line Chart Anlysis", "BarChart and Message"])
+tab1 = st.tabs(["Detailed Analysis"])
 
 # deep translation
 from deep_trans import translate
