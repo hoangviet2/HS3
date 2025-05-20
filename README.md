@@ -7,9 +7,9 @@
 
 
 ## Acknowledgement
-- Mentor: Hồ Ngọc Lâp
+- Mentor: Hồ Ngọc Lâm
 - Team members:
-- Hoàng Việt
+- Viet Hoang
 - Trang Gia Khang
 - Nguyễn Quốc Anh
 - Trần Nguyễn Bảo Khang
@@ -17,7 +17,7 @@
 
 ## Abstract & introduction
 
-Giới trẻ hiện nay đang ngày càng ít chia sẻ cảm xúc cá nhân ra bên ngoài.
+Young people today are increasingly less likely to share their personal emotions openly.
 
 ## Approach
 
