@@ -33,11 +33,11 @@ feedback. We assume that technology-based applications can be a viable and scala
 ## How to run the code
 First you need to clone this repository to your local system. Open terminal and then paste this command line
 ```
-git clone https://github.com/hoangviet2/HS3.git
+git clone https://github.com/hoangviet2/VirtualTherapist.git
 ```
 Next move into the cloned directory
 ```
-cd HS3
+cd VirtualTherapist
 ```
 Create a virtual environment with venv to avoid conflicts in library versions and modules
 ```
