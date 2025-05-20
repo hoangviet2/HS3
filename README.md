@@ -1,6 +1,4 @@
 # Virtual Therapist
-
-[![> Research Paper](https://img.shields.io/badge/Research%20Paper-blue)](https://github.com/Hackathon-LHP-Team/Virtual-Therapist/blob/main/Virtual%20Therapist.pdf)
 [![> Notebook & dataset](https://img.shields.io/badge/Notebook%20Dataset-red)](https://colab.research.google.com/drive/1BHydT5sFQQIgXgVWzGiryCj2Kn9h0GgW?usp=sharing)
 [![> Notebook & dataset](https://img.shields.io/badge/Notebook%20Dataset-red)](https://github.com/hoangviet2/HS3/blob/main/Model/Sentimental_task.ipynb)
 [![> Pitching slide](https://img.shields.io/badge/Pitching%20slide-black)](https://www.canva.com/design/DAFxhdWUyEc/DF4pJIczCQUfDAFDY-LRbg/edit?utm_content=DAFxhdWUyEc&utm_campaign=designshare&utm_medium=link2&utm_source=sharebutton)
